@@ -8,3 +8,13 @@ media
 
 # Backup files # 
 *.bak 
+
+.gcloudignore
+app.yaml
+
+.venv
+.env
+
+logs
+
+gcp_service_account.json

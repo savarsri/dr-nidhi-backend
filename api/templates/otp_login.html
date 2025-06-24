@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your One-Time Password</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f4f4;
+            padding: 30px;
+            color: #333;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .otp-box {
+            background-color: #f0f0f0;
+            color: #007BFF;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            letter-spacing: 4px;
+            user-select: all;
+        }
+
+        .copy-btn {
+            display: inline-block;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-size: 14px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Hello {{ username }},</h2>
+        <p>You requested a One-Time Password (OTP) to log in to your account. Please use the OTP below to proceed:</p>
+
+        <div class="otp-box" id="otp">{{ otp }}</div>
+
+        <p>This OTP is valid for 10 minutes. Do not share it with anyone.</p>
+
+        <div class="footer">
+            <p>If you didn't request this, you can safely ignore this email.</p>
+            <p>Thanks,<br>Dr. Nidhi</p>
+        </div>
+    </div>
+</body>
+
+</html>

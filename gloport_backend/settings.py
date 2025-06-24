@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
+from google.oauth2 import service_account
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,14 +26,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-gz+f_8yhc6jmr+m7c%7gpb@qyhqt0mm6jui@jbq(!9cpen$$ow"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['https://doctornidhi.com']
 
-
+FRONTEND_URL = "https://doctornidhi.com"
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -63,6 +69,12 @@ SIMPLE_JWT = {
    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
 }
 
+DJOSER = {
+    'SERIALIZERS': {
+        'current_user': 'api.serializer.DjoserUserSerializer',
+    }
+}
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -74,9 +86,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = "gloport_backend.urls"
 
@@ -105,11 +115,11 @@ WSGI_APPLICATION = "gloport_backend.wsgi.application"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gloport_database',
-        'USER': 'postgres',
-        'PASSWORD': 'U.`D|t8^1QgeZS=s',
-        'HOST': '34.93.54.15',
-        'PORT': '5432'
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT')
     }
 }
 
@@ -154,4 +164,30 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-   
+
+AUTH_USER_MODEL = 'api.CustomUser'
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, "gloport_backend/config/gcp_service_account.json")
+)
+
+GS_BUCKET_NAME = os.environ.get('GS_BUCKET_NAME')
+
+EMAIL_PORT = 465
+# EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_SSL = True
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL')
+REDIS_URL = os.environ.get('REDIS_URL')
+
+GROK_KEY = os.environ.get('GROK_KEY')
+GROK_MODEL = os.environ.get('GROK_MODEL')
+GROK_URL = os.environ.get('GROK_URL')
+
+GPT_KEY = os.environ.get('GPT_KEY')
+GPT_MODEL = os.environ.get('GPT_MODEL')
